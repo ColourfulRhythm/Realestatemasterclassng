@@ -4,7 +4,7 @@ import {
   Users, 
   Camera, 
   FileText,
-  Handshake,
+  HandHeart,
   AlertTriangle
 } from 'lucide-react';
 
@@ -68,7 +68,7 @@ const BuyingFamilyLandSlide = () => {
             className="flex justify-center mb-12"
           >
             <div className="p-8 bg-yellow-500/30 rounded-full backdrop-blur-sm">
-              <Handshake className="w-16 h-16 text-yellow-300" />
+              <HandHeart className="w-16 h-16 text-yellow-300" />
             </div>
           </motion.div>
 
