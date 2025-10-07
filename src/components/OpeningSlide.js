@@ -12,61 +12,76 @@ const OpeningSlide = () => {
       
       <div className="slide-content">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-8"
+          transition={{ duration: 1, delay: 0.5 }}
         >
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+          <h1 className="slide-title text-white">
             Real Estate
           </h1>
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-3xl md:text-5xl font-light text-yellow-300 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="slide-subtitle text-yellow-300"
           >
             The Foundation of Wealth & Society
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-2xl md:text-4xl text-white/90 mb-16"
+            transition={{ duration: 1, delay: 1.5 }}
+            className="slide-content-text text-white"
           >
             Food. Clothing. Shelter → <span className="text-yellow-300 font-semibold">Shelter = Real Estate</span>
           </motion.div>
+        </motion.div>
 
-          {/* Basic Needs Triangle */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 1.1 }}
-            className="flex justify-center items-center space-x-8 md:space-x-16"
-          >
-            <div className="flex flex-col items-center space-y-4">
-              <div className="p-4 bg-orange-500/20 rounded-full backdrop-blur-sm">
-                <Utensils className="w-12 h-12 text-orange-300" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="content-section"
+        >
+          <div className="content-grid content-grid-3">
+            <div className="icon-text-group">
+              <div className="icon-container">
+                <div className="p-6 bg-orange-500/10 rounded-full backdrop-blur-sm">
+                  <Utensils className="w-16 h-16 text-orange-300" />
+                </div>
               </div>
-              <span className="text-white text-lg font-medium">Food</span>
+              <div className="icon-text text-white">
+                <h3 className="text-2xl font-light mb-2">Food</h3>
+                <p className="text-white/70">Basic human need</p>
+              </div>
             </div>
             
-            <div className="flex flex-col items-center space-y-4">
-              <div className="p-4 bg-blue-500/20 rounded-full backdrop-blur-sm">
-                <Shirt className="w-12 h-12 text-blue-300" />
+            <div className="icon-text-group">
+              <div className="icon-container">
+                <div className="p-6 bg-blue-500/10 rounded-full backdrop-blur-sm">
+                  <Shirt className="w-16 h-16 text-blue-300" />
+                </div>
               </div>
-              <span className="text-white text-lg font-medium">Clothing</span>
+              <div className="icon-text text-white">
+                <h3 className="text-2xl font-light mb-2">Clothing</h3>
+                <p className="text-white/70">Basic human need</p>
+              </div>
             </div>
             
-            <div className="flex flex-col items-center space-y-4">
-              <div className="p-4 bg-yellow-500/20 rounded-full backdrop-blur-sm">
-                <Home className="w-12 h-12 text-yellow-300" />
+            <div className="icon-text-group">
+              <div className="icon-container">
+                <div className="p-6 bg-yellow-500/10 rounded-full backdrop-blur-sm">
+                  <Home className="w-16 h-16 text-yellow-300" />
+                </div>
               </div>
-              <span className="text-white text-lg font-medium">Shelter</span>
+              <div className="icon-text text-white">
+                <h3 className="text-2xl font-light mb-2">Shelter</h3>
+                <p className="text-white/70">Basic human need = Real Estate</p>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </div>

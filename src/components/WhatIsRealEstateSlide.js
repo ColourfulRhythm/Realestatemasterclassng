@@ -13,62 +13,66 @@ const WhatIsRealEstateSlide = () => {
   return (
     <div className="presentation-slide">
       <div className="slide-background" style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1973&q=80")'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1973&q=80")'
       }} />
       <div className="slide-overlay" />
       
       <div className="slide-content">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-12"
+          transition={{ duration: 1, delay: 0.5 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
+          <h1 className="slide-title text-white">
             What is Real Estate?
           </h1>
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-2xl md:text-4xl text-yellow-300 mb-16 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="slide-subtitle text-yellow-300"
           >
-            Land + everything attached to it<br />
-            <span className="text-white text-xl md:text-2xl">
-              (Natural & Man-made)
-            </span>
+            Land + everything attached to it
           </motion.div>
 
-          {/* 4-Quadrant Diagram */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto"
+            transition={{ duration: 1, delay: 1.5 }}
+            className="slide-content-text text-white"
           >
+            <span className="text-white/80">(Natural & Man-made)</span>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="content-section"
+        >
+          <div className="content-grid content-grid-4">
             {categories.map((category, index) => (
               <motion.div
                 key={category.title}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1 + index * 0.2 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300"
+                transition={{ duration: 0.8, delay: 2.2 + index * 0.2 }}
+                className="icon-text-group"
               >
-                <div className="mb-4 flex justify-center">
-                  <div className="p-4 bg-yellow-500/20 rounded-full">
-                    <category.icon className="w-8 h-8 text-yellow-300" />
+                <div className="icon-container">
+                  <div className="p-6 bg-yellow-500/10 rounded-full backdrop-blur-sm">
+                    <category.icon className="w-16 h-16 text-yellow-300" />
                   </div>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                  {category.title}
-                </h3>
-                <p className="text-white/80 text-sm md:text-base">
-                  {category.description}
-                </p>
+                <div className="icon-text text-white">
+                  <h3 className="text-2xl font-light mb-2">{category.title}</h3>
+                  <p className="text-white/70">{category.description}</p>
+                </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </div>
@@ -76,3 +80,4 @@ const WhatIsRealEstateSlide = () => {
 };
 
 export default WhatIsRealEstateSlide;
+

@@ -32,79 +32,60 @@ const PowerOfLocationSlide = () => {
       
       <div className="slide-content">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-12"
+          transition={{ duration: 1, delay: 0.5 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
+          <h1 className="slide-title text-white">
             Power of Location
           </h1>
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-2xl md:text-4xl text-yellow-300 mb-16 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="slide-subtitle text-yellow-300"
           >
             Location determines price & growth
           </motion.div>
 
-          {/* Central Map Icon */}
           <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex justify-center mb-12"
-          >
-            <div className="p-8 bg-yellow-500/30 rounded-full backdrop-blur-sm">
-              <MapPin className="w-16 h-16 text-yellow-300" />
-            </div>
-          </motion.div>
-
-          {/* Location Factors Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
-          >
-            {locationFactors.map((factor, index) => (
-              <motion.div
-                key={factor.title}
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 1.3 + index * 0.1,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105"
-              >
-                <div className="mb-4 flex justify-center">
-                  <div className={`p-4 rounded-full ${colorClasses[factor.color]}`}>
-                    <factor.icon className="w-8 h-8" />
-                  </div>
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-white mb-2">
-                  {factor.title}
-                </h3>
-                <p className="text-white/80 text-sm md:text-base">
-                  {factor.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-            className="text-xl md:text-2xl text-white/80 text-center max-w-4xl mx-auto"
+            transition={{ duration: 1, delay: 1.5 }}
+            className="slide-content-text text-white"
           >
             The right location can make or break your investment
           </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="content-section"
+        >
+          <div className="content-grid content-grid-4">
+            {locationFactors.map((factor, index) => (
+              <motion.div
+                key={factor.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 2.2 + index * 0.1 }}
+                className="icon-text-group"
+              >
+                <div className="icon-container">
+                  <div className={`p-6 rounded-full backdrop-blur-sm ${colorClasses[factor.color]}`}>
+                    <factor.icon className="w-16 h-16" />
+                  </div>
+                </div>
+                <div className="icon-text text-white">
+                  <h3 className="text-xl font-light mb-2">{factor.title}</h3>
+                  <p className="text-white/70">{factor.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </div>
@@ -112,3 +93,4 @@ const PowerOfLocationSlide = () => {
 };
 
 export default PowerOfLocationSlide;
+

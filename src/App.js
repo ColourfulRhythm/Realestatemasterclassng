@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Circle } from 'lucide-react';
 import './index.css';
 
+// Import custom hooks
+import {
+  useKeyboardNavigation,
+  useSwipeGestures,
+  useSlideHistory,
+  useFullscreen,
+} from './hooks';
+
+// Import components
+import ErrorBoundary from './components/ErrorBoundary';
+import NavigationControls from './components/NavigationControls';
+import SlideIndicators from './components/SlideIndicators';
+import KeyboardShortcutsHelper from './components/KeyboardShortcutsHelper';
+
 // Import all slide components
+import CoverSlide from './components/CoverSlide';
 import OpeningSlide from './components/OpeningSlide';
 import WhatIsRealEstateSlide from './components/WhatIsRealEstateSlide';
 import WhyRealEstateIsEverythingSlide from './components/WhyRealEstateIsEverythingSlide';
@@ -20,104 +34,147 @@ import KeyDocumentsSlide from './components/KeyDocumentsSlide';
 import SpecializedLandSlide from './components/SpecializedLandSlide';
 import ClosingSlide from './components/ClosingSlide';
 
+// Constants
+const ANIMATION_DURATION = 0.5;
+const SLIDE_OFFSET = 50;
+
+// Define slide data
 const slides = [
-  { component: OpeningSlide, id: 'opening' },
-  { component: WhatIsRealEstateSlide, id: 'what-is-real-estate' },
-  { component: WhyRealEstateIsEverythingSlide, id: 'why-real-estate-is-everything' },
-  { component: GatewaysIntoRealEstateSlide, id: 'gateways-into-real-estate' },
-  { component: TypesOfBuildingsSlide, id: 'types-of-buildings' },
-  { component: PowerOfLocationSlide, id: 'power-of-location' },
-  { component: InvestmentStrategySlide, id: 'investment-strategy' },
-  { component: CoOwnershipSlide, id: 'co-ownership' },
-  { component: BreadthOfIndustrySlide, id: 'breadth-of-industry' },
-  { component: LandFlippingSlide, id: 'land-flipping' },
-  { component: RoleOfSurveyorSlide, id: 'role-of-surveyor' },
-  { component: BuyingFamilyLandSlide, id: 'buying-family-land' },
-  { component: KeyDocumentsSlide, id: 'key-documents' },
-  { component: SpecializedLandSlide, id: 'specialized-land' },
-  { component: ClosingSlide, id: 'closing' },
+  { component: CoverSlide, id: 'cover', title: 'Cover' },
+  { component: OpeningSlide, id: 'opening', title: 'Opening' },
+  { component: WhatIsRealEstateSlide, id: 'what-is-real-estate', title: 'What is Real Estate' },
+  { component: WhyRealEstateIsEverythingSlide, id: 'why-real-estate-is-everything', title: 'Why Real Estate is Everything' },
+  { component: GatewaysIntoRealEstateSlide, id: 'gateways-into-real-estate', title: 'Gateways into Real Estate' },
+  { component: TypesOfBuildingsSlide, id: 'types-of-buildings', title: 'Types of Buildings' },
+  { component: PowerOfLocationSlide, id: 'power-of-location', title: 'Power of Location' },
+  { component: InvestmentStrategySlide, id: 'investment-strategy', title: 'Investment Strategy' },
+  { component: CoOwnershipSlide, id: 'co-ownership', title: 'Co-Ownership' },
+  { component: BreadthOfIndustrySlide, id: 'breadth-of-industry', title: 'Breadth of Industry' },
+  { component: LandFlippingSlide, id: 'land-flipping', title: 'Land Flipping' },
+  { component: RoleOfSurveyorSlide, id: 'role-of-surveyor', title: 'Role of Surveyor' },
+  { component: BuyingFamilyLandSlide, id: 'buying-family-land', title: 'Buying Family Land' },
+  { component: KeyDocumentsSlide, id: 'key-documents', title: 'Key Documents' },
+  { component: SpecializedLandSlide, id: 'specialized-land', title: 'Specialized Land' },
+  { component: ClosingSlide, id: 'closing', title: 'Closing' },
 ];
 
+const totalSlides = slides.length;
+
 function App() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // State management
+  const [currentSlide, setCurrentSlide] = useSlideHistory(slides);
+  const [direction, setDirection] = useState(0); // -1 for prev, 1 for next
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  const containerRef = useRef(null);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
+  // Fullscreen hook
+  const { isFullscreen, toggleFullscreen } = useFullscreen(containerRef);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
+  // Navigation helper
+  const animateTransition = useCallback((newIndex, dir) => {
+    if (isAnimating || newIndex === currentSlide) return;
+    
+    setDirection(dir);
+    setIsAnimating(true);
+    setCurrentSlide(newIndex);
+    setTimeout(() => setIsAnimating(false), ANIMATION_DURATION * 1000);
+  }, [currentSlide, isAnimating, setCurrentSlide]);
 
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
+  // Navigation functions
+  const nextSlide = useCallback(() => {
+    if (currentSlide < totalSlides - 1) {
+      animateTransition(currentSlide + 1, 1);
+    }
+  }, [currentSlide, animateTransition]);
+
+  const prevSlide = useCallback(() => {
+    if (currentSlide > 0) {
+      animateTransition(currentSlide - 1, -1);
+    }
+  }, [currentSlide, animateTransition]);
+
+  const goToSlide = useCallback((index) => {
+    if (index >= 0 && index < totalSlides && index !== currentSlide) {
+      animateTransition(index, index > currentSlide ? 1 : -1);
+    }
+  }, [currentSlide, animateTransition]);
+
+  const goToFirstSlide = useCallback(() => {
+    goToSlide(0);
+  }, [goToSlide]);
+
+  const goToLastSlide = useCallback(() => {
+    goToSlide(totalSlides - 1);
+  }, [goToSlide]);
+
+  // Keyboard navigation hook
+  useKeyboardNavigation({
+    onNext: nextSlide,
+    onPrev: prevSlide,
+    onFirst: goToFirstSlide,
+    onLast: goToLastSlide,
+    onGoToSlide: goToSlide,
+    onToggleFullscreen: toggleFullscreen,
+  });
+
+  // Swipe gestures hook
+  const swipeHandlers = useSwipeGestures({
+    onSwipeLeft: nextSlide,
+    onSwipeRight: prevSlide,
+  });
 
   const CurrentSlideComponent = slides[currentSlide].component;
 
   return (
-    <div className="relative min-h-screen bg-gray-900">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, x: 300 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -300 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <CurrentSlideComponent />
-        </motion.div>
-      </AnimatePresence>
+    <div 
+      ref={containerRef}
+      {...swipeHandlers}
+      className="presentation-container relative min-h-screen bg-gray-900 focus:outline-none overflow-hidden"
+      role="region"
+      aria-roledescription="presentation"
+      aria-label="Real Estate Presentation"
+      aria-live="polite"
+    >
+      <ErrorBoundary>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slides[currentSlide].id}
+            initial={{ opacity: 0, x: SLIDE_OFFSET * direction }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -SLIDE_OFFSET * direction }}
+            transition={{ 
+              duration: ANIMATION_DURATION, 
+              ease: "easeInOut" 
+            }}
+            className="slide-content w-full h-full"
+          >
+            <CurrentSlideComponent />
+          </motion.div>
+        </AnimatePresence>
+      </ErrorBoundary>
 
       {/* Navigation Controls */}
-      <div className="navigation-controls">
-        <button
-          onClick={prevSlide}
-          disabled={currentSlide === 0}
-          className="p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        
-        <span className="text-white text-sm font-medium px-4">
-          {currentSlide + 1} / {slides.length}
-        </span>
-        
-        <button
-          onClick={nextSlide}
-          disabled={currentSlide === slides.length - 1}
-          className="p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
+      <NavigationControls
+        currentSlide={currentSlide}
+        totalSlides={totalSlides}
+        onNext={nextSlide}
+        onPrev={prevSlide}
+        isAnimating={isAnimating}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={toggleFullscreen}
+      />
 
       {/* Slide Indicators */}
-      <div className="slide-indicators">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`p-1 transition-all duration-200 ${
-              index === currentSlide
-                ? 'text-white scale-125'
-                : 'text-white/50 hover:text-white/80'
-            }`}
-          >
-            <Circle size={12} fill={index === currentSlide ? 'currentColor' : 'none'} />
-          </button>
-        ))}
-      </div>
-
-      {/* Keyboard Navigation */}
-      <div
-        className="fixed inset-0 z-0"
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowRight') nextSlide();
-          if (e.key === 'ArrowLeft') prevSlide();
-        }}
-        tabIndex={0}
+      <SlideIndicators
+        slides={slides}
+        currentSlide={currentSlide}
+        onGoToSlide={goToSlide}
+        isAnimating={isAnimating}
       />
+
+      {/* Keyboard Shortcuts Helper */}
+      <KeyboardShortcutsHelper />
     </div>
   );
 }
