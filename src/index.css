@@ -133,8 +133,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* Subtle dark gradient overlay for text readability */
-  background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 100%);
+  /* Lighter overlay so background images show through */
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 100%);
   z-index: var(--z-overlay);
 }
 
@@ -142,7 +142,7 @@
   position: relative;
   z-index: var(--z-content);
   text-align: center;
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   padding: 4rem 2rem;
   min-height: 100vh;
@@ -150,6 +150,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 /* Glassmorphism/Neumorphism Backdrop for content blocks */
@@ -168,9 +169,9 @@
 | 4. STEVE JOBS/APPLE TYPOGRAPHY (Light Text on Dark)
 |--------------------------------------------------------------------------
 | Simplified text styling using specific selectors instead of !important
+| Note: Does NOT override Tailwind color utilities
 */
 .slide-title {
-  color: #ffffff; 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 4.5rem;
   font-weight: 200;
@@ -181,23 +182,19 @@
 }
 
 .slide-subtitle {
-  color: #ffffff;
   font-size: 2.5rem;
   font-weight: 300;
   line-height: 1.3;
   margin-bottom: 3rem;
-  opacity: 0.85;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .slide-content-text {
-  color: #ffffff;
   font-size: 1.6rem;
   font-weight: 300;
   line-height: 1.6;
   margin-bottom: 2rem;
   max-width: 900px;
-  opacity: 0.9;
 }
 
 /* |--------------------------------------------------------------------------
@@ -256,7 +253,6 @@
   font-size: 1.3rem;
   font-weight: 400;
   line-height: 1.4;
-  color: #ffffff;
 }
 
 /* |--------------------------------------------------------------------------
