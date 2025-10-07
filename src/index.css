@@ -133,8 +133,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* Lighter overlay so background images show through */
-  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 100%);
+  /* Apple-style: darker, more elegant overlay */
+  background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.75) 100%);
   z-index: var(--z-overlay);
 }
 
@@ -231,18 +231,14 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2rem;
-  background: var(--glass-bg);
-  border-radius: 15px;
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--glass-border);
+  padding: 3rem 2rem;
+  background: transparent;
+  border-radius: 0;
   transition: all var(--transition-normal) var(--ease-smooth);
 }
 
 .icon-text-group:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: scale(1.02);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
 }
 
 .icon-container {
